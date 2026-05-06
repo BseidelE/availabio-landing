@@ -57,7 +57,10 @@
             color: var(--text-100); display: inline-flex; gap: 8px; align-items: center;
             letter-spacing: -0.01em;
         }
-        .nav-brand .dna { color: var(--jade-lt); }
+        .nav-brand .ampersand {
+            font-family: var(--font-display); font-style: italic; font-weight: 800;
+            color: var(--jade-lt); font-size: 1.3em; line-height: 1;
+        }
         .nav-links { display: flex; gap: 22px; align-items: center; }
         .nav-links a { color: rgba(240,246,252,0.72); font-size: 0.91rem; font-weight: 500; transition: color 0.15s; }
         .nav-links a:hover { color: var(--text-100); }
@@ -135,6 +138,12 @@
         }
         .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
         .hero-note { margin-top: 16px; font-size: 0.81rem; color: rgba(200,216,232,0.48); line-height: 1.5; }
+        .hero-consumer-nudge {
+            margin-top: 10px; font-size: 0.88rem; line-height: 1.55;
+            color: rgba(200,216,232,0.62);
+        }
+        .hero-consumer-nudge a { color: var(--jade-lt); border-bottom: 1px solid rgba(20,196,168,0.35); }
+        .hero-consumer-nudge a:hover { border-bottom-color: var(--jade-lt); }
 
         /* Hero visual */
         .hero-visual { position: relative; }
@@ -317,9 +326,10 @@
     <!-- Navigation -->
     <nav class="site-nav" id="site-nav">
         <div class="wrap nav-row">
-            <a href="/" class="nav-brand"><span class="dna">&#x1F9EC;</span><span>Availabio</span></a>
+            <a href="/" class="nav-brand"><span class="ampersand">&amp;</span><span>Availabio</span></a>
             <div class="nav-links">
                 <a href="#for-brands">For Brands</a>
+                <a href="#for-individuals">For Individuals</a>
                 <a href="https://app.availabio.com/pricing">Pricing</a>
                 <a href="https://app.availabio.com/api-docs">API Docs</a>
                 <a href="https://app.availabio.com/signin">Sign In</a>
@@ -343,6 +353,7 @@
                     <a class="btn btn-ghost" href="https://app.availabio.com/api-docs">View API Docs</a>
                 </div>
                 <p class="hero-note">PK outputs are model-derived estimates for educational and formulation intelligence use only. Not clinical or legal advice.</p>
+                <p class="hero-consumer-nudge">Also using Availabio for yourself? <a href="#for-individuals">Start free</a> to explore supplement timing, interaction context, and wearable-informed signals.</p>
             </div>
             <div class="hero-visual" aria-hidden="true">
                 <div class="mol-canvas">
@@ -476,7 +487,7 @@
     </section>
 
     <!-- 5. Split Path: Brands / Individuals -->
-    <section class="section split-shell">
+    <section class="section split-shell" id="for-individuals">
         <div class="wrap">
             <span class="section-label">Who it&#x2019;s for</span>
             <h2>Two paths, one intelligence layer</h2>
@@ -493,7 +504,7 @@
                 <div class="path-card path-individual">
                     <span class="path-tag tag-individual">For Individuals</span>
                     <h3>Personal supplement intelligence</h3>
-                    <p>Explore supplement timing, interaction context, and wearable-informed signals where available. Start with a free account.</p>
+                    <p>Use Availabio personally to explore your supplement stack, timing, and wearable-informed context with a free account.</p>
                     <a class="btn btn-outline" href="https://app.availabio.com/signin">Create Free Account</a>
                 </div>
             </div>
@@ -575,7 +586,7 @@
         <div class="wrap">
             <div class="footer-row">
                 <div>
-                    <div class="footer-brand">&#x1F9EC; Availabio</div>
+                    <div class="footer-brand"><span style="font-style:italic;color:var(--jade-lt);">&amp;</span> Availabio</div>
                     <p class="footer-tagline">Bioavailability intelligence, grounded in PK.</p>
                 </div>
                 <div class="footer-links">
