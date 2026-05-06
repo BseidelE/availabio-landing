@@ -3,311 +3,599 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Availabio — PK intelligence for supplement users and nutraceutical brands. Bioavailability simulation, IVIVE-informed enzyme modeling, evidence grades, formulation comparison.">
+    <meta name="description" content="Availabio — Bioavailability intelligence for supplement brands. Compare formulation options, interaction assumptions, and evidence strength. Grounded in PK simulation.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <title>Availabio — PK Intelligence for People and Brands</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Availabio — Bioavailability Intelligence for Supplement Brands</title>
     <style>
         :root {
-            --avb-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --avb-font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-            --avb-text-body: #1a2535;
-            --avb-text-dim: #5a6d80;
-            --avb-surface-border: #dde7ec;
-            --avb-surface-light: #f4f8fa;
-            --avb-teal-deep: #006e7a;
-            --avb-cyan-bright: #00b0b9;
-            --avb-info-light: #e8f8fa;
+            --navy-950: #03080f;
+            --navy-900: #060e1a;
+            --navy-800: #0d1d30;
+            --jade:     #0e9e8a;
+            --jade-lt:  #14c4a8;
+            --amber:    #e6aa38;
+            --amber-lt: #fdf0d0;
+            --amber-dim: #7a5610;
+            --text-100: #f0f6fc;
+            --text-200: #c8d8e8;
+            --text-dark: #1a2535;
+            --text-dim:  #5a6d80;
+            --surface-0: #ffffff;
+            --surface-1: #f4f8fa;
+            --border:    #dde7ec;
+            --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+            --font-body:    'Inter', system-ui, sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); color: var(--text-dark); overflow-x: hidden; }
+        a { text-decoration: none; }
+        img { max-width: 100%; display: block; }
 
-        body {
-            font-family: var(--avb-font-body);
-            color: var(--avb-text-body);
-            background:
-                radial-gradient(circle at 10% 10%, rgba(0, 176, 185, 0.2), transparent 35%),
-                radial-gradient(circle at 85% 20%, rgba(3, 169, 244, 0.16), transparent 30%),
-                linear-gradient(180deg, #f8fdff 0%, #eef7fa 100%);
-            min-height: 100vh;
+        .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+        /* Navigation */
+        .site-nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            transition: background 0.3s ease, backdrop-filter 0.3s ease;
         }
-
-        .wrap { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
-
-        .site-header {
-            position: sticky; top: 0; z-index: 50;
-            backdrop-filter: blur(8px);
-            background: rgba(248, 253, 255, 0.86);
-            border-bottom: 1px solid var(--avb-surface-border);
+        .site-nav.scrolled {
+            background: rgba(6,14,26,0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(14,158,138,0.18);
         }
-
-        .header-row {
+        .nav-row {
             display: flex; align-items: center; justify-content: space-between;
-            min-height: 74px; gap: 16px;
+            min-height: 70px; gap: 16px;
         }
-
-        .brand {
-            text-decoration: none; color: var(--avb-text-body);
-            font-family: var(--avb-font-display); font-size: 1.5rem; font-weight: 700;
-            display: inline-flex; gap: 8px; align-items: center;
+        .nav-brand {
+            font-family: var(--font-display); font-size: 1.42rem; font-weight: 700;
+            color: var(--text-100); display: inline-flex; gap: 8px; align-items: center;
+            letter-spacing: -0.01em;
         }
+        .nav-brand .dna { color: var(--jade-lt); }
+        .nav-links { display: flex; gap: 22px; align-items: center; }
+        .nav-links a { color: rgba(240,246,252,0.72); font-size: 0.91rem; font-weight: 500; transition: color 0.15s; }
+        .nav-links a:hover { color: var(--text-100); }
+        .nav-cta { display: flex; gap: 10px; }
 
-        .nav { display: flex; gap: 16px; align-items: center; }
-        .nav a { text-decoration: none; color: var(--avb-text-dim); font-weight: 600; font-size: 0.95rem; }
-        .nav a:hover { color: var(--avb-teal-deep); }
-
-        .cta-group { display: flex; gap: 10px; align-items: center; }
-
+        /* Buttons */
         .btn {
-            border: none; border-radius: 12px; padding: 11px 16px;
-            text-decoration: none; font-weight: 700; font-size: 0.92rem;
             display: inline-flex; align-items: center; justify-content: center;
-            gap: 8px; cursor: pointer;
+            gap: 7px; border-radius: 10px; padding: 10px 18px;
+            font-weight: 700; font-size: 0.9rem; cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            white-space: nowrap; border: none;
         }
-        .btn-brand {
-            color: white;
-            background: linear-gradient(135deg, var(--avb-cyan-bright) 0%, var(--avb-teal-deep) 100%);
-            box-shadow: 0 8px 22px rgba(0, 176, 185, 0.25);
+        .btn:hover { transform: translateY(-1px); }
+        .btn-jade {
+            background: linear-gradient(135deg, var(--jade-lt) 0%, var(--jade) 100%);
+            color: white; box-shadow: 0 6px 18px rgba(14,158,138,0.32);
         }
-        .btn-quiet {
-            color: var(--avb-teal-deep); background: white;
-            border: 1px solid var(--avb-surface-border);
+        .btn-jade:hover { box-shadow: 0 10px 26px rgba(14,158,138,0.44); }
+        .btn-ghost {
+            background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22);
+            color: rgba(240,246,252,0.9);
         }
+        .btn-ghost:hover { background: rgba(255,255,255,0.17); }
+        .btn-outline { background: white; border: 1.5px solid var(--border); color: var(--jade); }
+        .btn-outline:hover { border-color: var(--jade); box-shadow: 0 4px 12px rgba(14,158,138,0.14); }
 
-        .hero { padding: 72px 0 48px; }
+        /* Hero */
+        .hero-shell {
+            background:
+                radial-gradient(ellipse at 78% -8%, rgba(14,196,168,0.28) 0%, transparent 52%),
+                radial-gradient(ellipse at 18% 85%, rgba(3,80,120,0.38) 0%, transparent 50%),
+                linear-gradient(162deg, var(--navy-900) 0%, var(--navy-800) 48%, #0c1d2e 100%);
+            padding: 132px 0 84px;
+            position: relative; overflow: hidden;
+        }
+        .hero-shell::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(14,196,168,0.14) 1px, transparent 1px),
+                radial-gradient(circle, rgba(20,196,168,0.07) 1px, transparent 1px);
+            background-size: 58px 58px, 88px 88px;
+            background-position: 0 0, 29px 29px;
+            pointer-events: none;
+        }
         .hero-grid {
-            display: grid; grid-template-columns: 1.2fr 0.8fr;
-            gap: 28px; align-items: start;
+            display: grid; grid-template-columns: 1.15fr 0.85fr;
+            gap: 48px; align-items: center; position: relative; z-index: 1;
         }
-
-        .eyebrow {
-            display: inline-block; background: var(--avb-info-light);
-            color: var(--avb-teal-deep); border: 1px solid rgba(0, 176, 185, 0.25);
-            border-radius: 999px; padding: 8px 14px; font-size: 0.78rem;
-            font-weight: 700; letter-spacing: 0.04em; margin-bottom: 16px;
-            text-transform: uppercase;
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(14,158,138,0.12); border: 1px solid rgba(14,196,168,0.26);
+            border-radius: 999px; padding: 6px 14px;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em;
+            color: var(--jade-lt); text-transform: uppercase; margin-bottom: 22px;
         }
-
+        .hero-eyebrow::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--jade-lt); flex-shrink: 0;
+        }
         .hero h1 {
-            font-family: var(--avb-font-display);
-            font-size: clamp(2rem, 5vw, 3.3rem);
-            line-height: 1.08; margin-bottom: 14px;
+            font-family: var(--font-display);
+            font-size: clamp(2.1rem, 4.5vw, 3.2rem);
+            line-height: 1.09; color: var(--text-100);
+            margin-bottom: 22px; font-weight: 800; letter-spacing: -0.025em;
         }
-        .hero p { font-size: 1.04rem; line-height: 1.7; color: var(--avb-text-dim); margin-bottom: 22px; }
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(90deg, var(--jade-lt), #4debde);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: 1.05rem; line-height: 1.74; color: var(--text-200);
+            max-width: 570px; margin-bottom: 34px;
+        }
         .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
-        .hero-note { margin-top: 12px; font-size: 0.9rem; color: var(--avb-text-dim); }
+        .hero-note { margin-top: 16px; font-size: 0.81rem; color: rgba(200,216,232,0.48); line-height: 1.5; }
 
-        .hero-card {
-            background: white; border: 1px solid var(--avb-surface-border);
-            border-radius: 16px; padding: 22px; box-shadow: 0 16px 36px rgba(0,0,0,0.06);
+        /* Hero visual */
+        .hero-visual { position: relative; }
+        .mol-canvas { width: 100%; aspect-ratio: 1 / 1; max-width: 380px; margin: 0 auto; position: relative; }
+        .mol-svg { width: 100%; height: 100%; opacity: 0.85; }
+        .hero-stat-pill {
+            position: absolute; background: rgba(13,29,48,0.90);
+            border: 1px solid rgba(14,158,138,0.32);
+            backdrop-filter: blur(8px); border-radius: 12px;
+            padding: 10px 14px; white-space: nowrap;
         }
-        .hero-card h3 { font-size: 1.08rem; margin-bottom: 14px; }
-        .hero-stats { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
-        .stat {
-            border-radius: 12px; background: var(--avb-surface-light);
-            padding: 12px; border: 1px solid var(--avb-surface-border);
+        .hero-stat-pill strong {
+            display: block; font-size: 1.08rem; font-weight: 800;
+            color: var(--jade-lt); line-height: 1; font-family: var(--font-display);
         }
-        .stat strong { display: block; font-size: 1.1rem; margin-bottom: 4px; color: var(--avb-teal-deep); }
+        .hero-stat-pill span { font-size: 0.74rem; color: var(--text-200); margin-top: 3px; display: block; }
+        .pill-1 { top: 10%;  left: -7%; }
+        .pill-2 { bottom: 22%; left: -5%; }
+        .pill-3 { top: 18%;  right: -4%; }
+        .pill-4 { bottom: 12%; right:  2%; }
 
-        .section { padding: 28px 0; }
+        /* Trust bar */
+        .trust-bar { background: var(--surface-0); border-bottom: 1px solid var(--border); }
+        .trust-inner { display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; }
+        .trust-item { display: flex; align-items: center; gap: 12px; padding: 18px 32px; border-right: 1px solid var(--border); }
+        .trust-item:last-child { border-right: none; }
+        .trust-num { font-family: var(--font-display); font-size: 1.38rem; font-weight: 800; color: var(--jade); white-space: nowrap; }
+        .trust-label { font-size: 0.82rem; color: var(--text-dim); line-height: 1.3; }
+        .trust-label strong { display: block; color: var(--text-dark); font-size: 0.87rem; font-weight: 600; }
+
+        /* Sections */
+        .section { padding: 68px 0; }
+        .section-label {
+            font-size: 0.73rem; font-weight: 700; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--jade); margin-bottom: 10px; display: block;
+        }
         .section h2 {
-            font-family: var(--avb-font-display);
-            font-size: clamp(1.5rem, 4vw, 2.3rem); margin-bottom: 10px;
+            font-family: var(--font-display);
+            font-size: clamp(1.65rem, 3.5vw, 2.3rem);
+            line-height: 1.14; margin-bottom: 14px;
+            font-weight: 800; letter-spacing: -0.02em;
         }
-        .section-intro { color: var(--avb-text-dim); max-width: 820px; line-height: 1.7; margin-bottom: 18px; }
+        .section-intro { font-size: 1.02rem; line-height: 1.73; color: var(--text-dim); max-width: 760px; margin-bottom: 38px; }
 
-        .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
-
-        .card {
-            background: white; border: 1px solid var(--avb-surface-border);
-            border-radius: 14px; padding: 16px; box-shadow: 0 10px 24px rgba(0,0,0,0.04);
+        /* Brand Use-Case Scenario */
+        .scenario-shell { background: var(--surface-1); }
+        .scenario-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; align-items: start; }
+        .scenario-panel {
+            background: var(--navy-800);
+            border: 1px solid rgba(14,158,138,0.2);
+            border-radius: 20px; padding: 34px 38px;
+            position: relative; overflow: hidden;
         }
-        .card h4 { margin-bottom: 6px; }
-        .card p { color: var(--avb-text-dim); line-height: 1.6; font-size: 0.95rem; }
-
-        .proof-row { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 10px; }
-        .proof-pill {
-            background: var(--avb-surface-light); border: 1px solid var(--avb-surface-border);
-            border-radius: 12px; padding: 12px; text-align: center;
+        .scenario-panel::after {
+            content: '';
+            position: absolute; top: -50px; right: -50px;
+            width: 180px; height: 180px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(14,196,168,0.16) 0%, transparent 68%);
+            pointer-events: none;
         }
-        .proof-pill strong { display: block; color: var(--avb-teal-deep); margin-bottom: 4px; }
+        .scenario-panel blockquote {
+            font-family: var(--font-display);
+            font-size: 1.12rem; line-height: 1.64;
+            color: var(--text-100); font-style: normal;
+            position: relative; z-index: 1;
+        }
+        .scenario-panel blockquote::before {
+            content: '\u201c'; font-size: 3.2rem; line-height: 0.5; display: block;
+            color: var(--jade-lt); opacity: 0.45; margin-bottom: 12px;
+        }
+        .scenario-badge {
+            display: inline-block; margin-top: 20px;
+            background: rgba(14,158,138,0.16); border: 1px solid rgba(14,196,168,0.28);
+            color: var(--jade-lt); border-radius: 8px;
+            padding: 5px 12px; font-size: 0.77rem; font-weight: 600;
+            position: relative; z-index: 1;
+        }
+        .scenario-notes { display: flex; flex-direction: column; gap: 14px; }
+        .scenario-note {
+            background: var(--surface-0); border: 1px solid var(--border);
+            border-left: 3px solid var(--jade); border-radius: 10px; padding: 16px 20px;
+        }
+        .scenario-note h4 { font-size: 0.91rem; font-weight: 700; margin-bottom: 5px; color: var(--text-dark); }
+        .scenario-note p { font-size: 0.87rem; color: var(--text-dim); line-height: 1.58; }
 
-        .reg-strip {
-            background: #fff9ef; border: 1px solid #f1dfbd;
-            border-left: 4px solid #e0b24b; border-radius: 12px;
-            padding: 16px; font-size: 0.94rem; line-height: 1.6; color: #6b572c;
+        /* Evidence-Grade Moat */
+        .evidence-shell { background: var(--surface-0); }
+        .grade-ladder { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-bottom: 28px; }
+        .grade-card {
+            border: 1.5px solid var(--border); border-radius: 14px; padding: 22px 18px;
+            background: var(--surface-0); transition: box-shadow 0.15s, border-color 0.15s;
+        }
+        .grade-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.07); border-color: #c8d8e4; }
+        .grade-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 10px;
+            font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; margin-bottom: 12px;
+        }
+        .grade-A .grade-badge { background: rgba(14,158,138,0.12); color: var(--jade); }
+        .grade-B .grade-badge { background: rgba(14,158,138,0.07); color: #0a7a6a; }
+        .grade-C .grade-badge { background: rgba(230,170,56,0.12); color: #9a6818; }
+        .grade-D .grade-badge { background: rgba(180,100,50,0.10); color: #7a3d1e; }
+        .grade-card h4 { font-size: 0.91rem; font-weight: 700; margin-bottom: 6px; }
+        .grade-card p { font-size: 0.84rem; color: var(--text-dim); line-height: 1.57; }
+        .evidence-callout {
+            background: var(--amber-lt); border: 1px solid rgba(230,170,56,0.3);
+            border-left: 4px solid var(--amber); border-radius: 10px;
+            padding: 16px 20px; font-size: 0.9rem; line-height: 1.67; color: var(--amber-dim);
         }
 
-        .pricing-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
-        .price-card {
-            background: white; border: 1px solid var(--avb-surface-border);
-            border-radius: 14px; padding: 16px; box-shadow: 0 10px 24px rgba(0,0,0,0.05);
-        }
-        .price-card h4 { margin-bottom: 8px; }
-        .price-card .price { font-size: 1.28rem; color: var(--avb-teal-deep); font-weight: 800; margin-bottom: 8px; }
+        /* Split Path */
+        .split-shell { background: var(--surface-1); }
+        .split-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; align-items: start; }
+        .path-card { border-radius: 18px; padding: 34px 36px; }
+        .path-brand { background: var(--navy-800); border: 1px solid rgba(14,158,138,0.2); }
+        .path-brand h3 { color: var(--text-100); font-family: var(--font-display); font-size: 1.28rem; font-weight: 700; margin-bottom: 12px; }
+        .path-brand p { color: var(--text-200); line-height: 1.71; font-size: 0.97rem; margin-bottom: 24px; }
+        .path-individual { background: var(--surface-0); border: 1.5px solid var(--border); }
+        .path-individual h3 { font-family: var(--font-display); font-size: 1.18rem; font-weight: 700; margin-bottom: 12px; }
+        .path-individual p { color: var(--text-dim); line-height: 1.71; font-size: 0.95rem; margin-bottom: 22px; }
+        .path-tag { display: inline-block; border-radius: 6px; padding: 4px 10px; font-size: 0.73rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+        .tag-brand      { background: rgba(14,158,138,0.14); color: var(--jade); }
+        .tag-individual { background: rgba(230,170,56,0.12); color: #8a6010; }
 
-        .demo-cta-block {
-            background: white; border: 1px solid var(--avb-surface-border);
-            border-radius: 16px; padding: 32px; max-width: 600px;
-            box-shadow: 0 10px 28px rgba(0,0,0,0.05);
-        }
-        .demo-cta-block h3 { font-family: var(--avb-font-display); font-size: 1.3rem; margin-bottom: 10px; }
-        .demo-cta-block p { color: var(--avb-text-dim); line-height: 1.7; margin-bottom: 20px; }
+        /* Pricing */
+        .pricing-shell { background: var(--surface-0); }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-bottom: 20px; }
+        .price-card { border-radius: 14px; padding: 22px 20px; border: 1.5px solid var(--border); background: var(--surface-0); }
+        .price-card.featured { border-color: rgba(14,158,138,0.4); box-shadow: 0 0 0 1px rgba(14,158,138,0.12), 0 10px 28px rgba(0,0,0,0.06); }
+        .price-tier { font-size: 0.73rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--jade); margin-bottom: 8px; }
+        .price-card h4 { font-size: 0.98rem; font-weight: 700; margin-bottom: 8px; }
+        .price-amount { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--text-dark); }
+        .price-cadence { font-size: 0.82rem; color: var(--text-dim); margin-left: 2px; }
+        .price-card p { margin-top: 12px; font-size: 0.83rem; color: var(--text-dim); line-height: 1.56; }
 
-        .footer { padding: 32px 0 50px; color: var(--avb-text-dim); font-size: 0.9rem; }
+        /* Demo CTA */
+        .demo-shell { background: var(--navy-900); padding: 76px 0; }
+        .demo-inner { max-width: 680px; }
+        .demo-shell .section-label { color: var(--jade-lt); }
+        .demo-shell h2 { color: var(--text-100); }
+        .demo-shell .section-intro { color: var(--text-200); }
 
+        /* Compliance */
+        .compliance-strip { background: #fff9ef; border-top: 1px solid #f1dfbd; padding: 20px 0; }
+        .compliance-strip p { font-size: 0.87rem; line-height: 1.67; color: #6b572c; }
+
+        /* Footer */
+        .site-footer { background: var(--navy-950); padding: 38px 0 52px; }
+        .footer-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+        .footer-brand { font-family: var(--font-display); font-size: 1.18rem; font-weight: 700; color: var(--text-100); }
+        .footer-tagline { margin-top: 6px; font-size: 0.82rem; color: rgba(200,216,232,0.45); }
+        .footer-links { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+        .footer-links a { font-size: 0.84rem; color: rgba(200,216,232,0.52); transition: color 0.15s; }
+        .footer-links a:hover { color: var(--text-100); }
+        .footer-copy { font-size: 0.82rem; color: rgba(200,216,232,0.38); line-height: 1.6; }
+
+        /* Responsive */
         @media (max-width: 960px) {
-            .hero-grid, .pricing-grid, .grid-3 { grid-template-columns: 1fr; }
-            .proof-row { grid-template-columns: repeat(2, minmax(0,1fr)); }
-            .header-row { flex-wrap: wrap; padding: 10px 0; }
-            .nav { order: 3; width: 100%; justify-content: flex-start; flex-wrap: wrap; }
-            .cta-group { margin-left: auto; }
+            .hero-grid, .scenario-layout, .split-grid { grid-template-columns: 1fr; }
+            .hero-visual { display: none; }
+            .grade-ladder { grid-template-columns: repeat(2, minmax(0,1fr)); }
+            .pricing-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+            .trust-item { padding: 14px 20px; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 640px) {
+            .pricing-grid { grid-template-columns: 1fr; }
+            .grade-ladder { grid-template-columns: 1fr; }
+            .trust-inner { flex-direction: column; align-items: flex-start; }
+            .trust-item { border-right: none; border-bottom: 1px solid var(--border); width: 100%; }
+            .trust-item:last-child { border-bottom: none; }
+            .hero-shell { padding: 100px 0 60px; }
+            .demo-shell { padding: 52px 0; }
+            .section { padding: 48px 0; }
         }
     </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="wrap header-row">
-            <a href="/" class="brand"><span>&#x1F9EC;</span><span>Availabio</span></a>
-            <nav class="nav">
+
+    <!-- Navigation -->
+    <nav class="site-nav" id="site-nav">
+        <div class="wrap nav-row">
+            <a href="/" class="nav-brand"><span class="dna">&#x1F9EC;</span><span>Availabio</span></a>
+            <div class="nav-links">
                 <a href="#for-brands">For Brands</a>
                 <a href="https://app.availabio.com/pricing">Pricing</a>
                 <a href="https://app.availabio.com/api-docs">API Docs</a>
                 <a href="https://app.availabio.com/signin">Sign In</a>
-            </nav>
-            <div class="cta-group">
-                <a class="btn btn-quiet" href="https://app.availabio.com/auth/fitbit">Connect Wearable</a>
-                <a class="btn btn-brand" href="https://app.availabio.com/signin">Create Free Account</a>
+            </div>
+            <div class="nav-cta">
+                <a class="btn btn-jade" href="https://app.availabio.com/signin">Create Free Account</a>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="wrap">
-        <section class="hero">
-            <div class="hero-grid">
-                <div>
-                    <span class="eyebrow">PK Intelligence Layer</span>
-                    <h1>Understand what is bioavailable to people, and what differentiates formulations for brands.</h1>
-                    <p>
-                        Availabio helps individuals explore supplement timing, interactions, and formulation context,
-                        while helping nutraceutical teams run PK simulation scenarios with IVIVE-informed enzyme
-                        modeling for R&amp;D and product strategy.
-                    </p>
-                    <div class="hero-buttons">
-                        <a class="btn btn-brand" href="https://app.availabio.com/signin">Create Free Account</a>
-                        <a class="btn btn-quiet" href="#demo-request">Request Demo</a>
-                        <a class="btn btn-quiet" href="https://app.availabio.com/api-docs">View API Docs</a>
-                    </div>
-                    <p class="hero-note">PK outputs are model-derived estimates intended for educational and formulation intelligence use.</p>
+    <!-- 1. Hero -->
+    <section class="hero-shell">
+        <div class="wrap hero-grid">
+            <div class="hero-copy">
+                <span class="hero-eyebrow">Bioavailability intelligence, grounded in PK</span>
+                <h1>See which formulations get <em>more of the compound</em> into the body.</h1>
+                <p class="hero-sub">Availabio helps supplement brands compare formulation options, interaction assumptions, and evidence strength before the next R&amp;D or commercial decision. Individuals can create a free account to explore timing, interaction context, and wearable-informed signals.</p>
+                <div class="hero-buttons">
+                    <a class="btn btn-jade" href="https://app.availabio.com/signin">Create Free Account</a>
+                    <a class="btn btn-ghost" href="https://app.availabio.com/welcome#demo-request">Request Brand Demo</a>
+                    <a class="btn btn-ghost" href="https://app.availabio.com/api-docs">View API Docs</a>
                 </div>
-                <aside class="hero-card">
-                    <h3>What teams evaluate on first visit</h3>
-                    <div class="hero-stats">
-                        <div class="stat"><strong>PK Simulation</strong><span>Formulation and interaction scenarios</span></div>
-                        <div class="stat"><strong>IVIVE Method</strong><span>FDA-standard extrapolation framework</span></div>
-                        <div class="stat"><strong>Evidence Grades</strong><span>A/B/C/D context per parameter</span></div>
-                        <div class="stat"><strong>Jurisdictions</strong><span>US, EU, Colombia context</span></div>
+                <p class="hero-note">PK outputs are model-derived estimates for educational and formulation intelligence use only. Not clinical or legal advice.</p>
+            </div>
+            <div class="hero-visual" aria-hidden="true">
+                <div class="mol-canvas">
+                    <svg class="mol-svg" viewBox="0 0 360 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="180" y1="180" x2="80"  y2="100" stroke="rgba(14,196,168,0.24)" stroke-width="1.5"/>
+                        <line x1="180" y1="180" x2="280" y2="100" stroke="rgba(14,196,168,0.24)" stroke-width="1.5"/>
+                        <line x1="180" y1="180" x2="290" y2="240" stroke="rgba(14,196,168,0.24)" stroke-width="1.5"/>
+                        <line x1="180" y1="180" x2="100" y2="270" stroke="rgba(14,196,168,0.24)" stroke-width="1.5"/>
+                        <line x1="180" y1="180" x2="180" y2="60"  stroke="rgba(14,196,168,0.16)" stroke-width="1"/>
+                        <line x1="80"  y1="100" x2="280" y2="100" stroke="rgba(14,196,168,0.11)" stroke-width="1"/>
+                        <line x1="80"  y1="100" x2="100" y2="270" stroke="rgba(14,196,168,0.09)" stroke-width="1"/>
+                        <line x1="280" y1="100" x2="290" y2="240" stroke="rgba(14,196,168,0.09)" stroke-width="1"/>
+                        <line x1="100" y1="270" x2="290" y2="240" stroke="rgba(14,196,168,0.11)" stroke-width="1"/>
+                        <line x1="80"  y1="100" x2="40"  y2="160" stroke="rgba(14,196,168,0.11)" stroke-width="1"/>
+                        <line x1="280" y1="100" x2="320" y2="160" stroke="rgba(14,196,168,0.11)" stroke-width="1"/>
+                        <line x1="180" y1="60"  x2="240" y2="28"  stroke="rgba(14,196,168,0.09)" stroke-width="1"/>
+                        <circle cx="40"  cy="160" r="4" fill="rgba(14,196,168,0.22)"/>
+                        <circle cx="320" cy="160" r="4" fill="rgba(14,196,168,0.22)"/>
+                        <circle cx="240" cy="28"  r="4" fill="rgba(230,170,56,0.55)"/>
+                        <circle cx="180" cy="60"  r="7"  fill="rgba(14,196,168,0.32)"/>
+                        <circle cx="80"  cy="100" r="10" fill="rgba(14,158,138,0.4)"  stroke="rgba(14,196,168,0.5)"  stroke-width="1.5"/>
+                        <circle cx="280" cy="100" r="10" fill="rgba(14,158,138,0.4)"  stroke="rgba(14,196,168,0.5)"  stroke-width="1.5"/>
+                        <circle cx="290" cy="240" r="9"  fill="rgba(14,158,138,0.36)" stroke="rgba(14,196,168,0.42)" stroke-width="1.5"/>
+                        <circle cx="100" cy="270" r="9"  fill="rgba(14,158,138,0.36)" stroke="rgba(14,196,168,0.42)" stroke-width="1.5"/>
+                        <circle cx="180" cy="180" r="24" fill="rgba(14,158,138,0.2)"  stroke="rgba(14,196,168,0.45)" stroke-width="2"/>
+                        <circle cx="180" cy="180" r="13" fill="rgba(14,196,168,0.55)"/>
+                        <circle cx="240" cy="28"  r="6"  fill="rgba(230,170,56,0.62)" stroke="rgba(230,170,56,0.85)" stroke-width="1.5"/>
+                        <circle cx="180" cy="180" r="32" fill="none" stroke="rgba(14,196,168,0.14)" stroke-width="1.5" stroke-dasharray="4 7"/>
+                    </svg>
+                    <div class="hero-stat-pill pill-1"><strong>529</strong><span>CYP pathways</span></div>
+                    <div class="hero-stat-pill pill-2"><strong>28</strong><span>curated compounds</span></div>
+                    <div class="hero-stat-pill pill-3"><strong>IVIVE</strong><span>PK simulation</span></div>
+                    <div class="hero-stat-pill pill-4"><strong>A&#x2013;D</strong><span>evidence grades</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Built On / Trust Bar -->
+    <div class="trust-bar">
+        <div class="wrap trust-inner">
+            <div class="trust-item">
+                <span class="trust-num">529</span>
+                <div class="trust-label"><strong>CYP pathways</strong>metabolic route coverage</div>
+            </div>
+            <div class="trust-item">
+                <span class="trust-num">28</span>
+                <div class="trust-label"><strong>curated compounds</strong>source-verified parameters</div>
+            </div>
+            <div class="trust-item">
+                <span class="trust-num">IVIVE</span>
+                <div class="trust-label"><strong>IVIVE-informed PK simulation</strong>extrapolation method</div>
+            </div>
+            <div class="trust-item">
+                <span class="trust-num">A/B/C/D</span>
+                <div class="trust-label"><strong>evidence grades</strong>per parameter, every output</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Brand Use-Case Scenario -->
+    <section class="section scenario-shell" id="for-brands">
+        <div class="wrap">
+            <span class="section-label">Brand use case</span>
+            <h2>What your team would actually use this for</h2>
+            <div class="scenario-layout">
+                <div class="scenario-panel">
+                    <blockquote>
+                        A formulation team comparing two curcumin formats can use Availabio to frame expected PK
+                        differences, interaction assumptions, evidence grade, and source confidence before committing
+                        to deeper validation work.
+                    </blockquote>
+                    <span class="scenario-badge">Formulation intelligence scenario</span>
+                </div>
+                <div class="scenario-notes">
+                    <div class="scenario-note">
+                        <h4>Compare formulation options</h4>
+                        <p>Evaluate how different delivery formats affect expected bioavailability under similar dosing conditions, using IVIVE-informed PK estimates.</p>
                     </div>
-                </aside>
+                    <div class="scenario-note">
+                        <h4>Check interaction assumptions</h4>
+                        <p>Surface relevant CYP pathway interactions and enzyme competition scenarios before writing your formulation rationale or product brief.</p>
+                    </div>
+                    <div class="scenario-note">
+                        <h4>Review evidence strength</h4>
+                        <p>Every parameter carries an A/B/C/D evidence grade so your team can distinguish a well-supported estimate from an early-stage hypothesis.</p>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="for-brands" class="section">
-            <h2>For Brands</h2>
+    <!-- 4. Evidence-Grade Moat -->
+    <section class="section evidence-shell">
+        <div class="wrap">
+            <span class="section-label">Evidence discipline</span>
+            <h2>Why evidence grades matter</h2>
             <p class="section-intro">
-                Evaluate formulation pathways, compare what-if scenarios, and interpret interaction assumptions
-                with a transparent PK stack built for nutraceutical product teams.
+                Not every compound parameter is equally strong. Availabio shows whether a result comes from
+                in&nbsp;vivo human data, weaker preclinical evidence, or model-derived inference &#x2014; so teams
+                can tell the difference between a stronger formulation brief and an early hypothesis.
             </p>
-            <div class="proof-row" style="margin-bottom:14px;">
-                <div class="proof-pill"><strong>529</strong><span>CYP metabolic pathways</span></div>
-                <div class="proof-pill"><strong>28</strong><span>Curated compounds</span></div>
-                <div class="proof-pill"><strong>IVIVE</strong><span>FDA-standard methodology framing</span></div>
-                <div class="proof-pill"><strong>A/B/C/D</strong><span>Evidence grading</span></div>
-                <div class="proof-pill"><strong>PK</strong><span>Scenario simulation engine</span></div>
+            <div class="grade-ladder">
+                <div class="grade-card grade-A">
+                    <div class="grade-badge">A</div>
+                    <h4>In vivo human data</h4>
+                    <p>Supported by published human clinical or pharmacokinetic studies. Stronger basis for formulation planning and R&amp;D review.</p>
+                </div>
+                <div class="grade-card grade-B">
+                    <div class="grade-badge">B</div>
+                    <h4>In vivo animal / ex vivo</h4>
+                    <p>Supported by animal PK studies or validated ex&nbsp;vivo data. Useful directionally; interpretation requires additional context.</p>
+                </div>
+                <div class="grade-card grade-C">
+                    <div class="grade-badge">C</div>
+                    <h4>In vitro / model-derived</h4>
+                    <p>Derived from cell or enzyme assays, or PK model inference. Useful for framing early hypotheses; weaker confidence in isolation.</p>
+                </div>
+                <div class="grade-card grade-D">
+                    <div class="grade-badge">D</div>
+                    <h4>Structural / predicted</h4>
+                    <p>Inferred from molecular structure or QSAR prediction. Exploratory context only; should not drive standalone product claims.</p>
+                </div>
             </div>
-            <div class="grid-3">
-                <article class="card">
-                    <h4>PK Simulation Engine</h4>
-                    <p>Run PK simulations with IVIVE-informed enzyme modeling to compare formulation assumptions and interaction impact before execution-heavy validation steps.</p>
-                </article>
-                <article class="card">
-                    <h4>Formulation Comparison</h4>
-                    <p>Compare baseline and enhanced formulations, test positioning hypotheses, and evaluate interaction context for product briefs and cross-functional planning.</p>
-                </article>
-                <article class="card">
-                    <h4>Source-Aware Decisions</h4>
-                    <p>Track evidence grades and source strength so R&amp;D and commercial teams can prioritize next experiments with clearer confidence context.</p>
-                </article>
+            <div class="evidence-callout">
+                <strong>Decision framing:</strong> Stronger grades (A, B) support formulation planning and R&amp;D review.
+                Weaker grades (C, D) remain early hypothesis or context. Availabio makes this distinction explicit
+                so teams avoid overclaiming on limited evidence.
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section">
-            <h2>Evidence Grades as a Product Feature</h2>
-            <p class="section-intro">
-                Availabio surfaces A/B/C/D evidence grades alongside quantitative outputs so teams can separate
-                higher-confidence signals from weaker assumptions during substantiation review and internal prioritization.
-            </p>
-            <div class="card">
-                <p>Grades indicate source-strength context and should be interpreted as intelligence support for
-                R&amp;D and communications planning. They are not legal determinations and not clinical advice.</p>
+    <!-- 5. Split Path: Brands / Individuals -->
+    <section class="section split-shell">
+        <div class="wrap">
+            <span class="section-label">Who it&#x2019;s for</span>
+            <h2>Two paths, one intelligence layer</h2>
+            <div class="split-grid">
+                <div class="path-card path-brand">
+                    <span class="path-tag tag-brand">For Brands</span>
+                    <h3>Formulation intelligence for product and R&amp;D teams</h3>
+                    <p>Compare formulation assumptions, ingredient interaction scenarios, and evidence strength before the next R&amp;D or commercial decision. Includes API access, team workspaces, and jurisdiction-aware context.</p>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <a class="btn btn-jade" href="https://app.availabio.com/welcome#demo-request">Request Brand Demo</a>
+                        <a class="btn btn-ghost" href="https://app.availabio.com/pricing">View Pricing</a>
+                    </div>
+                </div>
+                <div class="path-card path-individual">
+                    <span class="path-tag tag-individual">For Individuals</span>
+                    <h3>Personal supplement intelligence</h3>
+                    <p>Explore supplement timing, interaction context, and wearable-informed signals where available. Start with a free account.</p>
+                    <a class="btn btn-outline" href="https://app.availabio.com/signin">Create Free Account</a>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section" id="consumer-path">
-            <h2>For Individuals</h2>
-            <p class="section-intro">
-                Keep your personal path active: create a free account, connect wearables, and explore supplement
-                timing, formulation, and interaction context using the same PK intelligence layer.
-            </p>
-            <div class="hero-buttons">
-                <a class="btn btn-brand" href="https://app.availabio.com/signin">Create Free Account</a>
-                <a class="btn btn-quiet" href="https://app.availabio.com/auth/fitbit">Connect Wearable</a>
-                <a class="btn btn-quiet" href="https://app.availabio.com/profile">Go to Profile</a>
-            </div>
-        </section>
-
-        <section class="section" id="pricing-preview">
-            <h2>Brand Pricing</h2>
-            <p class="section-intro">Exact tier pricing is public. Full details remain on the pricing page.</p>
+    <!-- 6. Pricing Teaser -->
+    <section class="section pricing-shell" id="pricing-preview">
+        <div class="wrap">
+            <span class="section-label">Brand pricing</span>
+            <h2>Transparent tier pricing</h2>
+            <p class="section-intro">Exact public pricing. Full details and feature breakdown on the pricing page.</p>
             <div class="pricing-grid">
-                <article class="price-card"><h4>Design Partner</h4><div class="price">$250/month</div></article>
-                <article class="price-card"><h4>Brand Intelligence</h4><div class="price">$499/month</div></article>
-                <article class="price-card"><h4>Brand Intelligence Pro</h4><div class="price">$1,199/month</div></article>
-                <article class="price-card"><h4>Enterprise</h4><div class="price">from $3,000/month</div></article>
+                <article class="price-card featured">
+                    <div class="price-tier">Current focus</div>
+                    <h4>Design Partner</h4>
+                    <div><span class="price-amount">$250</span><span class="price-cadence">/month</span></div>
+                    <p>Early access with direct input into the evidence layer and formulation intelligence roadmap.</p>
+                </article>
+                <article class="price-card featured">
+                    <div class="price-tier">Core plan</div>
+                    <h4>Brand Intelligence</h4>
+                    <div><span class="price-amount">$499</span><span class="price-cadence">/month</span></div>
+                    <p>Full formulation comparison, interaction scenarios, and evidence grading for brand teams.</p>
+                </article>
+                <article class="price-card">
+                    <h4>Brand Intelligence Pro</h4>
+                    <div><span class="price-amount">$1,199</span><span class="price-cadence">/month</span></div>
+                    <p>Multi-user team access, API integration, and extended compound coverage.</p>
+                </article>
+                <article class="price-card">
+                    <h4>Enterprise</h4>
+                    <div><span class="price-amount">from $3,000</span><span class="price-cadence">/month</span></div>
+                    <p>Custom deployments, dedicated support, and volume compound modeling.</p>
+                </article>
             </div>
-            <div style="margin-top:12px;">
-                <a class="btn btn-quiet" href="https://app.availabio.com/pricing">View Full Pricing</a>
+            <div style="margin-top:14px;">
+                <a class="btn btn-outline" href="https://app.availabio.com/pricing">View Full Pricing &amp; Features</a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section">
-            <div class="reg-strip">
-                <strong>Regulatory context, not legal advice:</strong> Availabio includes jurisdiction-aware compound
-                notes where available across US, EU, and Colombia to support informed communication and planning workflows.
-            </div>
-        </section>
-
-        <section id="demo-request" class="section">
-            <h2>Request a Brand Demo</h2>
-            <p class="section-intro">Tell us your use case and we will follow up with the most relevant walkthrough for your team.</p>
-            <div class="demo-cta-block">
-                <h3>Ready to evaluate the PK stack?</h3>
-                <p>
-                    Best for nutraceutical R&amp;D, formulation science, product, and technical teams evaluating
-                    PK intelligence and API integration. Submit the demo request form and our team will follow up.
+    <!-- 7. Demo CTA -->
+    <section class="demo-shell" id="demo-request">
+        <div class="wrap">
+            <div class="demo-inner">
+                <span class="section-label">Get started</span>
+                <h2>Request a brand walkthrough</h2>
+                <p class="section-intro">
+                    If you are evaluating formulation intelligence, API use, or evidence-backed product
+                    differentiation, request a short walkthrough. We&#x2019;ll tailor it to your compound
+                    category, formulation question, and current decision stage.
                 </p>
-                <a class="btn btn-brand" href="https://app.availabio.com/welcome#demo-request">Submit Demo Request &#x2192;</a>
-                <p style="margin-top:14px;font-size:0.88rem;">
-                    Or explore the API directly at
-                    <a href="https://app.availabio.com/api-docs" style="color:var(--avb-teal-deep);">app.availabio.com/api-docs</a>
+                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                    <a class="btn btn-jade" href="https://app.availabio.com/welcome#demo-request">Request Brand Demo &#x2192;</a>
+                    <a class="btn btn-ghost" href="https://app.availabio.com/api-docs">Explore API Docs</a>
+                </div>
+                <p style="margin-top:18px; font-size:0.82rem; color:rgba(200,216,232,0.44);">
+                    Questions? <a href="mailto:bseidel@availabio.com" style="color:rgba(14,196,168,0.8);">bseidel@availabio.com</a>
                 </p>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <footer class="wrap footer">
-        <p>&copy; Availabio. PK simulation and evidence context are intended for educational and formulation intelligence use.</p>
+    <!-- 8. Compliance / Regulatory / Footer -->
+    <div class="compliance-strip">
+        <div class="wrap">
+            <p>
+                <strong>Educational and formulation intelligence use only.</strong>
+                PK simulation outputs are model-derived estimates informed by IVIVE methodology.
+                Availabio includes jurisdiction-aware compound notes where available across US, EU, and Colombia
+                to support formulation planning and product communication workflows.
+                Outputs are not clinical advice, not legal advice, and not intended for regulatory submission.
+            </p>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="footer-row">
+                <div>
+                    <div class="footer-brand">&#x1F9EC; Availabio</div>
+                    <p class="footer-tagline">Bioavailability intelligence, grounded in PK.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://app.availabio.com/signin">Sign In</a>
+                    <a href="https://app.availabio.com/pricing">Pricing</a>
+                    <a href="https://app.availabio.com/api-docs">API Docs</a>
+                    <a href="https://app.availabio.com/welcome#demo-request">Request Demo</a>
+                </div>
+            </div>
+            <p class="footer-copy">&copy; 2026 Availabio. PK simulation and evidence context are for educational and formulation intelligence use. Not clinical or legal advice.</p>
+        </div>
     </footer>
+
+    <script>
+        const nav = document.getElementById('site-nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 20);
+        }, { passive: true });
+    </script>
 </body>
 </html>
