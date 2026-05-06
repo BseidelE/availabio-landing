@@ -57,9 +57,13 @@
             color: var(--text-100); display: inline-flex; gap: 8px; align-items: center;
             letter-spacing: -0.01em;
         }
-        .nav-brand .ampersand {
-            font-family: var(--font-display); font-style: italic; font-weight: 800;
-            color: var(--jade-lt); font-size: 1.3em; line-height: 1;
+        .nav-brand .logo-mark {
+            height: 28px; width: auto; display: block;
+            filter: brightness(0) saturate(100%) invert(65%) sepia(60%) saturate(400%) hue-rotate(130deg) brightness(95%);
+        }
+        .footer-brand .logo-mark {
+            height: 22px; width: auto; display: inline-block; vertical-align: middle; margin-right: 6px;
+            filter: brightness(0) saturate(100%) invert(65%) sepia(60%) saturate(400%) hue-rotate(130deg) brightness(95%);
         }
         .nav-links { display: flex; gap: 22px; align-items: center; }
         .nav-links a { color: rgba(240,246,252,0.72); font-size: 0.91rem; font-weight: 500; transition: color 0.15s; }
@@ -326,7 +330,7 @@
     <!-- Navigation -->
     <nav class="site-nav" id="site-nav">
         <div class="wrap nav-row">
-            <a href="/" class="nav-brand"><span class="ampersand">&amp;</span><span>Availabio</span></a>
+            <a href="/" class="nav-brand"><img src="assets/Logo.png" alt="" class="logo-mark"><span>Availabio</span></a>
             <div class="nav-links">
                 <a href="#for-brands">For Brands</a>
                 <a href="#for-individuals">For Individuals</a>
@@ -586,7 +590,7 @@
         <div class="wrap">
             <div class="footer-row">
                 <div>
-                    <div class="footer-brand"><span style="font-style:italic;color:var(--jade-lt);">&amp;</span> Availabio</div>
+                    <div class="footer-brand"><img src="assets/Logo.png" alt="" class="logo-mark"> Availabio</div>
                     <p class="footer-tagline">Bioavailability intelligence, grounded in PK.</p>
                 </div>
                 <div class="footer-links">
